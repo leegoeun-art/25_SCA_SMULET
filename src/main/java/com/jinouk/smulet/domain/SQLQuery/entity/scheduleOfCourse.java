@@ -7,9 +7,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
-@Getter@Setter
 @Table(name = "schedule_of_course")
+@Getter@Setter
 public class scheduleOfCourse
 {
     @Id
@@ -19,11 +20,11 @@ public class scheduleOfCourse
     @Column
     private int day;
 
-    @Column
-    private int time_start;
+    @Column(name = "timeStart")
+    private int timeStart;
 
-    @Column
-    private int time_end;
+    @Column(name = "timeEnd")
+    private String timeEnd; // 자료형 맞게
 
     @OneToMany(mappedBy = "scheduleOfCourse")
     private List<course> courses = new ArrayList<>();

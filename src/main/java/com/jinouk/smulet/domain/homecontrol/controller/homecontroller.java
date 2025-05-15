@@ -4,13 +4,11 @@ import com.jinouk.smulet.domain.homecontrol.dto.userdto;
 import com.jinouk.smulet.domain.homecontrol.service.memberservice;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,7 +16,12 @@ public class homecontroller {
     private final memberservice mservice;
 
     @GetMapping("/")
-    public String website(){return "user/My_page";}
+    public String website(HttpSession session) {
+        if(session.getAttribute("loginEmail")==null) {
+            return "redirect:/login_page";
+        }
+        return "user/My_page";
+    }
 
     @GetMapping("/Register")
     public String register(){return "user/Register";}
@@ -33,26 +36,27 @@ public class homecontroller {
         return "user/login_page";
     }
 
-    @PostMapping("/login")
-    @ResponseBody
-    public ResponseEntity<Map<String , String>> login(@RequestBody userdto userdto, HttpSession session)
+    @PostMapping("/login_page")
+    public String login(@ModelAttribute userdto userdto, HttpSession session)
     {
-        Map<String , String> map = new HashMap<>();
-
         System.out.println("1"+ userdto);
         userdto loginresult = mservice.login(userdto);
         if(loginresult!=null) {
             System.out.println(loginresult);
             session.setAttribute("loginEmail" , loginresult.getName());
-            map.put("Status" , "success");
-            return ResponseEntity.ok(map);
+            return "user/My_page";
         }
         else{
             System.out.println(loginresult);
-            map.put("Status" , "fail");
-            return ResponseEntity.ok(map);
+            return "user/login_page";
         }
     }
 
+    // ★고은 로그아웃 기능 추가
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // 세션 삭제
+        return "redirect:/login_page"; // 로그인 페이지로 리다이렉트
+    }
 
 }

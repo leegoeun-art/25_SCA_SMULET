@@ -12,7 +12,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "timetable")
 public class timetable
 {
     @Id
@@ -20,14 +19,14 @@ public class timetable
     private int id;
     
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private user userId;
+    @JoinColumn(name = "userId")
+    private user user;
 
     @ManyToMany
     @JoinTable(
             name = "timetableCourse",
-            joinColumns = @JoinColumn(name = "timetable_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id")
+            joinColumns = @JoinColumn(name = "timetableId"),
+            inverseJoinColumns = @JoinColumn(name = "courseId")
     )
     private List<course> courses = new ArrayList<>();
 
