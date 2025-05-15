@@ -192,10 +192,10 @@
       <div class="title">상명대 컴퓨터과학과</div>
       <div class="subtitle">SMULET</div>
 
-      <!-- 🔵 로그인한 사용자 이메일 표시 -->
+      <!-- [고은] 로그인한 사용자 이메일을 세션에서 불러와 출력 -->
       <p style="font-size:18px; font-weight:600;">환영합니다, [[${session.loginEmail}]] 님!</p>
 
-      <!-- 🔵 로그아웃 버튼 -->
+      <!-- [고은] 세션 기반 로그아웃 기능 추가 -->
       <form action="/logout" method="get">
         <button type="submit" class="login-btn">로그아웃</button>
       </form>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class homecontroller {
     private final memberservice mservice;
 
+    // [세션 접근 제어 기능] 메인 페이지 접근 시 로그인 상태 확인 (담당: 고은)
     @GetMapping("/")
     public String website(HttpSession session) {
         if(session.getAttribute("loginEmail")==null) {
@@ -36,6 +37,7 @@ public class homecontroller {
         return "user/login_page";
     }
 
+    // [로그인 시 세션 발급 기능] 로그인 성공 시 세션 저장 (담당: 고은)
     @PostMapping("/login_page")
     public String login(@ModelAttribute userdto userdto, HttpSession session)
     {
@@ -52,7 +54,7 @@ public class homecontroller {
         }
     }
 
-    // ★고은 로그아웃 기능 추가
+    // [로그아웃 기능] 세션 무효화 처리 및 로그인 페이지로 리다이렉트 (담당: 고은)
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate(); // 세션 삭제
